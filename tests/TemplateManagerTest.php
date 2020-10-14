@@ -32,11 +32,11 @@ class TemplateManagerTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function test()
+    public function testTemplateComputed()
     {
         $faker = \Faker\Factory::create();
 
-        $destinationId                  = $faker->randomNumber();
+        $destinationId       = $faker->randomNumber();
         $expectedDestination = DestinationRepository::getInstance()->getById($destinationId);
         $expectedUser        = ApplicationContext::getInstance()->getCurrentUser();
 
@@ -63,15 +63,15 @@ L'équipe Convelio.com
             ]
         );
 
-        $this->assertEquals('Votre livraison à ' . $expectedDestination->countryName, $message->subject);
+        $this->assertEquals('Votre livraison à ' . $expectedDestination->getCountryName(), $message->getSubject());
         $this->assertEquals("
-Bonjour " . $expectedUser->firstname . ",
+Bonjour " . $expectedUser->getFirstname() . ",
 
-Merci de nous avoir contacté pour votre livraison à " . $expectedDestination->countryName . ".
+Merci de nous avoir contacté pour votre livraison à " . $expectedDestination->getCountryName() . ".
 
 Bien cordialement,
 
 L'équipe Convelio.com
-", $message->content);
+", $message->getContent());
     }
 }
